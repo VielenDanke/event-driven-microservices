@@ -19,19 +19,19 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: ${PWD}/data
+      device: ${PWD}/axonserver/data
       o: bind
   axonserver-events:
     driver: local
     driver_opts:
       type: none
-      device: ${PWD}/events
+      device: ${PWD}/axonserver/events
       o: bind
   axonserver-config:
     driver: local
     driver_opts:
       type: none
-      device: ${PWD}/config
+      device: ${PWD}/axonserver/config
       o: bind
 
 networks:

@@ -1,0 +1,4 @@
+service:
+  image: mongo
+  version: 4.4.6
+  port: 27017

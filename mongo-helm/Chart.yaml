@@ -1,0 +1,4 @@
+apiVersion: v1
+name: mongodb-dev
+description: A mongodb service
+version: 0.0.1

@@ -2,4 +2,6 @@
 *.iml
 target
 out
-axonserver
+axonserver/data
+axonserver/events
+mongo-helm/secrets
