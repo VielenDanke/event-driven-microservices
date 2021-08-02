@@ -2,6 +2,7 @@ package com.vielendanke.productservice.config;
 
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
+import com.mongodb.MongoCredential;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,11 @@ public class MongoConfig {
                 .builder()
                 .applyConnectionString(new ConnectionString(
                         Objects.requireNonNull(environment.getProperty("mongodb.connection.url"))))
+                .credential(MongoCredential.createCredential(
+                        environment.getProperty("MONGODB_USERNAME"),
+                        environment.getProperty("MONGODB_DATABASE"),
+                        environment.getProperty("MONGODB_PASSWORD").toCharArray()
+                ))
                 .applicationName("product-service")
                 .build();
     }
