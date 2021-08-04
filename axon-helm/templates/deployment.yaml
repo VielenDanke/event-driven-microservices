@@ -21,16 +21,17 @@ spec:
       containers:
         - name: {{.Release.Name}}
           image: {{ required "A valid .Values.service.image entry required!" .Values.service.image }}:{{ required "A valid .Values.service.version entry required!" .Values.service.version }}
-          env:
-            - name: MONGO_INITDB_ROOT_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: {{.Release.Name}}-secret
-                  key: username
-            - name: MONGO_INITDB_ROOT_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: {{.Release.Name}}-secret
-                  key: password
+          volumeMounts:
+            - mountPath: /config
+              name: config-volume
           ports:
-            - containerPort: {{ required "A valid .Values.service.port entry required!" .Values.service.port }}
+          {{ range .Values.service.ports }}
+            - containerPort: {{ . }}
+          {{ end }}
+      volumes:
+        - name: config-volume
+          configMap:
+            name: {{.Release.Name}}-configmap
+            items:
+              - key: application.properties
+                path: application.properties

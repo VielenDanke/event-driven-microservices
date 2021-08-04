@@ -1,41 +1,39 @@
 package com.vielendanke.productservice.controller;
 
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoCursor;
-import com.vielendanke.productservice.model.ProductResponseModel;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.vielendanke.productservice.command.CreateProductCommand;
+import com.vielendanke.productservice.core.model.ProductSaveRequest;
+import com.vielendanke.productservice.core.model.ProductSaveResponse;
+import lombok.RequiredArgsConstructor;
+import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/products")
+@RequiredArgsConstructor
 public class ProductController {
 
-    private final MongoClient mongoClient;
-
-    @Autowired
-    public ProductController(MongoClient mongoClient) {
-        this.mongoClient = mongoClient;
-    }
+    private final CommandGateway commandGateway;
 
     @PostMapping
-    public ResponseEntity<Object> save() {
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<ProductSaveResponse> save(@RequestBody ProductSaveRequest request) {
+        CreateProductCommand productCommand = CreateProductCommand.builder()
+                .price(request.price)
+                .title(request.title)
+                .quantity(request.quantity)
+                .productId(UUID.randomUUID().toString())
+                .build();
+        String returnValue = commandGateway.sendAndWait(productCommand);
+        return ResponseEntity.status(HttpStatus.CREATED).body(new ProductSaveResponse(returnValue));
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductResponseModel>> findAll() {
-        List<ProductResponseModel> rsp = new ArrayList<>();
-        MongoCursor<ProductResponseModel> cursor = mongoClient.getDatabase("shop").getCollection("products").find(ProductResponseModel.class).cursor();
-        while (cursor.hasNext()) {
-            rsp.add(cursor.next());
-        }
-        return ResponseEntity.ok(rsp);
+    public ResponseEntity<List<Object>> findAll() {
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping

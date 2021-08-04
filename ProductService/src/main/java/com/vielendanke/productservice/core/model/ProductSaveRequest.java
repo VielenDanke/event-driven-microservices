@@ -1,12 +1,10 @@
-package com.vielendanke.productservice.model;
+package com.vielendanke.productservice.core.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.math.BigDecimal;
 
-public class ProductResponseModel {
+public class ProductSaveRequest {
 
     @JsonProperty(value = "title")
     public String title;

@@ -1,0 +1,4 @@
+service:
+  image: axoniq/axonserver
+  version: 4.5.5
+  ports: ["8024","8124","8224"]
