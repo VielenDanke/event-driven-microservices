@@ -22,10 +22,13 @@ public class Product implements Serializable {
 
     @BsonId
     private String id;
+
     @BsonProperty(value = "title")
     private String title;
+
     @BsonProperty(value = "quantity")
     private Integer quantity;
+
     @BsonProperty(value = "price")
     private BigDecimal price;
 

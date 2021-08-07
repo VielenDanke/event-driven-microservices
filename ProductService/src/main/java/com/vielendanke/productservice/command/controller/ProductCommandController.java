@@ -1,4 +1,4 @@
-package com.vielendanke.productservice.controller;
+package com.vielendanke.productservice.command.controller;
 
 import com.vielendanke.productservice.command.CreateProductCommand;
 import com.vielendanke.productservice.core.model.ProductSaveRequest;
@@ -7,20 +7,23 @@ import lombok.RequiredArgsConstructor;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import javax.validation.Valid;
 import java.util.UUID;
 
 @RestController
 @RequestMapping("/products")
 @RequiredArgsConstructor
-public class ProductController {
+public class ProductCommandController {
 
     private final CommandGateway commandGateway;
 
     @PostMapping
-    public ResponseEntity<ProductSaveResponse> save(@RequestBody ProductSaveRequest request) {
+    public ResponseEntity<ProductSaveResponse> save(@RequestBody @Valid ProductSaveRequest request) {
         CreateProductCommand productCommand = CreateProductCommand.builder()
                 .price(request.price)
                 .title(request.title)
@@ -29,20 +32,5 @@ public class ProductController {
                 .build();
         String returnValue = commandGateway.sendAndWait(productCommand);
         return ResponseEntity.status(HttpStatus.CREATED).body(new ProductSaveResponse(returnValue));
-    }
-
-    @GetMapping
-    public ResponseEntity<List<Object>> findAll() {
-        return ResponseEntity.ok().build();
-    }
-
-    @PutMapping
-    public ResponseEntity<Object> update() {
-        return ResponseEntity.ok().build();
-    }
-
-    @DeleteMapping
-    public ResponseEntity<Object> delete() {
-        return ResponseEntity.ok().build();
     }
 }
