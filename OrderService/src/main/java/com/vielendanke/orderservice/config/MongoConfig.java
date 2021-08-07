@@ -1,4 +1,4 @@
-package com.vielendanke.productservice.config;
+package com.vielendanke.orderservice.config;
 
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
@@ -6,8 +6,6 @@ import com.mongodb.MongoCredential;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
-import com.vielendanke.productservice.core.entity.Product;
-import com.vielendanke.productservice.core.model.ProductLookupEntity;
 import org.bson.codecs.ValueCodecProvider;
 import org.bson.codecs.configuration.CodecRegistries;
 import org.bson.codecs.jsr310.Jsr310CodecProvider;
@@ -45,7 +43,7 @@ public class MongoConfig {
                         Objects.requireNonNull(environment.getProperty("MONGODB_DATABASE")),
                         Objects.requireNonNull(environment.getProperty("MONGODB_PASSWORD")).toCharArray()
                 ))
-                .applicationName("product-service")
+                .applicationName("order-service")
                 .codecRegistry(CodecRegistries.fromRegistries(
                         MongoClientSettings.getDefaultCodecRegistry(),
                         CodecRegistries.fromProviders(

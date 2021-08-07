@@ -13,4 +13,6 @@ public interface ProductRepository {
     Product findById(String id);
 
     Product findByIdOrTitle(String id, String title);
+
+    void updateQuantity(String id, int diffQuantity);
 }

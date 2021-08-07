@@ -7,6 +7,9 @@ import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Repository
 public class ProductLookupRepositoryImpl implements ProductLookupRepository {
 
@@ -19,9 +22,9 @@ public class ProductLookupRepositoryImpl implements ProductLookupRepository {
 
     @Override
     public boolean checkIfExists(String id, String title) {
-        Document[] documents = new Document[2];
-        documents[0] = new Document("id", id);
-        documents[1] = new Document("title", title);
+        List<Document> documents = new ArrayList<>();
+        documents.add(new Document("id", id));
+        documents.add(new Document("title", title));
         Document toFind = new Document("or", documents);
         return shopDatabase.getCollection("productsLookup")
                 .find(toFind, ProductLookupEntity.class)

@@ -1,6 +1,9 @@
 package com.vielendanke.productservice.command;
 
+import com.vielendanke.core.commands.ReserveProductCommand;
+import com.vielendanke.core.events.ProductReservedEvent;
 import com.vielendanke.productservice.core.events.ProductCreatedEvent;
+import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.modelling.command.AggregateIdentifier;
@@ -11,6 +14,7 @@ import org.springframework.beans.BeanUtils;
 import java.math.BigDecimal;
 
 @Aggregate
+@Slf4j
 public class ProductAggregate {
 
     @AggregateIdentifier
@@ -37,6 +41,25 @@ public class ProductAggregate {
         BeanUtils.copyProperties(createProductCommand, productCreatedEvent);
 
         AggregateLifecycle.apply(productCreatedEvent);
+    }
+
+    @CommandHandler
+    public void handle(ReserveProductCommand command) {
+        if (quantity < command.getQuantity()) {
+            throw new IllegalArgumentException("Insufficient number items in stock");
+        }
+        ProductReservedEvent event = new ProductReservedEvent();
+
+        BeanUtils.copyProperties(command, event);
+
+        log.info(String.format("Reserve for product ID %s is processing", command.getProductId()));
+
+        AggregateLifecycle.apply(event);
+    }
+
+    @EventSourcingHandler
+    public void on(ProductReservedEvent event) {
+        this.quantity -= event.getQuantity();
     }
 
     @EventSourcingHandler
