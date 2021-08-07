@@ -14,5 +14,6 @@
         <module>ProductService</module>
         <module>OrderService</module>
         <module>core</module>
+        <module>UsersService</module>
     </modules>
 </project>
