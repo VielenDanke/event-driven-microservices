@@ -1,12 +1,12 @@
-package com.vielendanke.core.model;
+package com.vielendanke.orderservice.core.model;
 
+import com.vielendanke.core.model.OrderStatus;
 import lombok.*;
-import org.bson.Document;
 import org.bson.codecs.pojo.annotations.BsonId;
 import org.bson.codecs.pojo.annotations.BsonProperty;
-
-import java.util.HashMap;
-import java.util.Map;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 @Getter
 @Setter
@@ -15,36 +15,31 @@ import java.util.Map;
 @Builder
 @EqualsAndHashCode(of = {"orderId","productId","addressId"})
 @ToString
+@Document
 public class Order {
 
+    @Id
     @BsonId
+    @Field("orderId")
     private String orderId;
 
+    @Field("userId")
     @BsonProperty("userId")
     private String userId;
 
+    @Field("productId")
     @BsonProperty("productId")
     private String productId;
 
+    @Field("quantity")
     @BsonProperty("quantity")
     private int quantity;
 
+    @Field("addressId")
     @BsonProperty("addressId")
     private String addressId;
 
+    @Field("orderStatus")
     @BsonProperty("orderStatus")
     private OrderStatus orderStatus;
-
-    public Document toDocument() {
-        Map<String, Object> docMap = new HashMap<>();
-
-        docMap.put("orderId", this.orderId);
-        docMap.put("userId", this.userId);
-        docMap.put("productId", this.productId);
-        docMap.put("quantity", this.quantity);
-        docMap.put("addressId", this.addressId);
-        docMap.put("orderStatus", this.orderStatus.name());
-
-        return new Document(docMap);
-    }
 }

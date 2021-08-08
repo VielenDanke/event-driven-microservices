@@ -28,7 +28,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     @Override
     public void updateQuantity(String id, int diffQuantity) {
         UpdateResult updateResult = shopDatabase.getCollection("products")
-                .updateOne(new Document("id", id), new Document("inc", new Document("score", diffQuantity)));
+                .updateOne(new Document("id", id), new Document("$inc", new Document("score", diffQuantity)));
         if (!updateResult.wasAcknowledged() || updateResult.getMatchedCount() < 1) {
             log.warn(String.format("Product with ID %s wasn't updated", id));
         }

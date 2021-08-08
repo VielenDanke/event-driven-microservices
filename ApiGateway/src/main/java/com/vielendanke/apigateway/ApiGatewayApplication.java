@@ -1,4 +1,4 @@
-package com.appsdeveloperblog.estore.apigateway;
+package com.vielendanke.apigateway;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

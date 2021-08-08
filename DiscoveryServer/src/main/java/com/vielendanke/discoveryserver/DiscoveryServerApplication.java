@@ -1,4 +1,4 @@
-package com.appsdeveloperblog.estore.discoveryserver;
+package com.vielendanke.discoveryserver;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,6 +1,8 @@
 package com.vielendanke.productservice.command;
 
+import com.vielendanke.core.commands.CancelProductReservationCommand;
 import com.vielendanke.core.commands.ReserveProductCommand;
+import com.vielendanke.core.events.ProductReservationCancelEvent;
 import com.vielendanke.core.events.ProductReservedEvent;
 import com.vielendanke.productservice.core.events.ProductCreatedEvent;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +15,7 @@ import org.springframework.beans.BeanUtils;
 
 import java.math.BigDecimal;
 
-@Aggregate
+@Aggregate(snapshotFilter = "productSnapshotTriggerDefinition")
 @Slf4j
 public class ProductAggregate {
 
@@ -57,6 +59,19 @@ public class ProductAggregate {
         AggregateLifecycle.apply(event);
     }
 
+    @CommandHandler
+    public void handle(CancelProductReservationCommand command) {
+        ProductReservationCancelEvent event = ProductReservationCancelEvent.builder()
+                .reason(command.getReason())
+                .userId(command.getUserId())
+                .productId(command.getProductId())
+                .orderId(command.getOrderId())
+                .quantity(command.getQuantity())
+                .build();
+
+        AggregateLifecycle.apply(event);
+    }
+
     @EventSourcingHandler
     public void on(ProductReservedEvent event) {
         this.quantity -= event.getQuantity();
@@ -68,5 +83,10 @@ public class ProductAggregate {
         this.title = productCreatedEvent.getTitle();
         this.price = productCreatedEvent.getPrice();
         this.quantity = productCreatedEvent.getQuantity();
+    }
+
+    @EventSourcingHandler
+    public void on(ProductReservationCancelEvent event) {
+        this.quantity += event.getQuantity();
     }
 }

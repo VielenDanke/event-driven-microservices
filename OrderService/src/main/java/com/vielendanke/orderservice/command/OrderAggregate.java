@@ -3,6 +3,7 @@ package com.vielendanke.orderservice.command;
 import com.vielendanke.core.events.OrderApprovedEvent;
 import com.vielendanke.orderservice.core.events.OrderCreatedEvent;
 import com.vielendanke.core.model.OrderStatus;
+import com.vielendanke.orderservice.core.events.OrderRejectedEvent;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.modelling.command.AggregateIdentifier;
@@ -40,6 +41,17 @@ public class OrderAggregate {
         AggregateLifecycle.apply(event);
     }
 
+    @CommandHandler
+    public void handle(RejectOrderCommand command) {
+        OrderRejectedEvent event = OrderRejectedEvent.builder()
+                .orderId(command.getOrderId())
+                .reason(command.getReason())
+                .orderStatus(OrderStatus.REJECTED)
+                .build();
+
+        AggregateLifecycle.apply(event);
+    }
+
     @EventSourcingHandler
     public void on(OrderApprovedEvent event) {
         // change order status in axon aggregate order
@@ -53,6 +65,11 @@ public class OrderAggregate {
         this.userId = event.getUserId();
         this.quantity = event.getQuantity();
         this.addressId = event.getAddressId();
+        this.orderStatus = event.getOrderStatus();
+    }
+
+    @EventSourcingHandler
+    public void on(OrderRejectedEvent event) {
         this.orderStatus = event.getOrderStatus();
     }
 }

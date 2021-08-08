@@ -1,11 +1,7 @@
 package com.vielendanke.orderservice.core.repository;
 
-import com.vielendanke.core.model.Order;
-import com.vielendanke.core.model.OrderStatus;
+import com.vielendanke.orderservice.core.model.Order;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
-public interface OrderRepository {
-
-    void save(Order order);
-
-    boolean changeOrderStatus(String orderId, OrderStatus status);
+public interface OrderRepository extends MongoRepository<Order, String> {
 }

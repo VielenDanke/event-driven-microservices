@@ -1,5 +1,6 @@
 package com.vielendanke.productservice.command.handler;
 
+import com.vielendanke.core.events.ProductReservationCancelEvent;
 import com.vielendanke.core.events.ProductReservedEvent;
 import com.vielendanke.productservice.core.entity.Product;
 import com.vielendanke.productservice.core.events.ProductCreatedEvent;
@@ -37,7 +38,7 @@ public class ProductEventsHandler {
 
     @EventHandler
     public void on(ProductReservedEvent event) {
-        productRepository.updateQuantity(event.getProductId(), event.getQuantity());
+        productRepository.updateQuantity(event.getProductId(), -event.getQuantity());
     }
 
     @EventHandler
@@ -47,5 +48,10 @@ public class ProductEventsHandler {
         BeanUtils.copyProperties(productCreatedEvent, product);
 
         productRepository.save(product);
+    }
+
+    @EventHandler
+    public void on(ProductReservationCancelEvent event) {
+        productRepository.updateQuantity(event.getProductId(), event.getQuantity());
     }
 }

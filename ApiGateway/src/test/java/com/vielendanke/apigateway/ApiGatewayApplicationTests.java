@@ -1,10 +1,10 @@
-package com.appsdeveloperblog.estore.discoveryserver;
+package com.vielendanke.apigateway;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class DiscoveryServerApplicationTests {
+class ApiGatewayApplicationTests {
 
 	@Test
 	void contextLoads() {
