@@ -8,6 +8,7 @@ import com.vielendanke.productservice.core.repository.ProductRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
+import org.axonframework.eventhandling.ResetHandler;
 import org.axonframework.messaging.interceptors.ExceptionHandler;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,5 +54,10 @@ public class ProductEventsHandler {
     @EventHandler
     public void on(ProductReservationCancelEvent event) {
         productRepository.updateQuantity(event.getProductId(), event.getQuantity());
+    }
+
+    @ResetHandler
+    public void reset() {
+        productRepository.deleteAll();
     }
 }

@@ -26,6 +26,12 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
+    public void deleteAll() {
+        shopDatabase.getCollection("products")
+                .deleteMany(new Document());
+    }
+
+    @Override
     public void updateQuantity(String id, int diffQuantity) {
         UpdateResult updateResult = shopDatabase.getCollection("products")
                 .updateOne(new Document("id", id), new Document("$inc", new Document("score", diffQuantity)));

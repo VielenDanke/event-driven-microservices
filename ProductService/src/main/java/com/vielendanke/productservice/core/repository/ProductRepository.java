@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface ProductRepository {
 
+    void deleteAll();
+
     String save(Product product);
 
     List<Product> findAll();

@@ -5,6 +5,7 @@ import com.vielendanke.productservice.core.model.ProductLookupEntity;
 import com.vielendanke.productservice.core.repository.ProductLookupRepository;
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
+import org.axonframework.eventhandling.ResetHandler;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -27,5 +28,10 @@ public class ProductLookupEventHandler {
         BeanUtils.copyProperties(productCreatedEvent, lookupEntity);
 
         repository.save(lookupEntity);
+    }
+
+    @ResetHandler
+    public void reset() {
+        repository.deleteAll();
     }
 }

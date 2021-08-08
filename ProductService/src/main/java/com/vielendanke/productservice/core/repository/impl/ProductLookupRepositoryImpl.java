@@ -21,6 +21,12 @@ public class ProductLookupRepositoryImpl implements ProductLookupRepository {
     }
 
     @Override
+    public void deleteAll() {
+        shopDatabase.getCollection("products")
+                .deleteMany(new Document());
+    }
+
+    @Override
     public boolean checkIfExists(String id, String title) {
         List<Document> documents = new ArrayList<>();
         documents.add(new Document("id", id));

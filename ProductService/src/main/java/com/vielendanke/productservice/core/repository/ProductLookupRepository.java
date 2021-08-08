@@ -6,5 +6,7 @@ public interface ProductLookupRepository {
 
     boolean checkIfExists(String id, String title);
 
+    void deleteAll();
+
     void save(ProductLookupEntity productLookupEntity);
 }
