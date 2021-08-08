@@ -1,6 +1,6 @@
 package com.vielendanke.orderservice.core.events;
 
-import com.vielendanke.orderservice.core.model.OrderStatus;
+import com.vielendanke.core.model.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

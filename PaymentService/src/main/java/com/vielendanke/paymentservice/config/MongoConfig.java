@@ -1,4 +1,4 @@
-package com.vielendanke.productservice.config;
+package com.vielendanke.paymentservice.config;
 
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
@@ -43,7 +43,7 @@ public class MongoConfig {
                         Objects.requireNonNull(environment.getProperty("MONGODB_DATABASE")),
                         Objects.requireNonNull(environment.getProperty("MONGODB_PASSWORD")).toCharArray()
                 ))
-                .applicationName("product-service")
+                .applicationName("order-service")
                 .codecRegistry(CodecRegistries.fromRegistries(
                         MongoClientSettings.getDefaultCodecRegistry(),
                         CodecRegistries.fromProviders(

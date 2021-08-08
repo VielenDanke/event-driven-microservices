@@ -25,7 +25,7 @@ public class ProductLookupRepositoryImpl implements ProductLookupRepository {
         List<Document> documents = new ArrayList<>();
         documents.add(new Document("id", id));
         documents.add(new Document("title", title));
-        Document toFind = new Document("or", documents);
+        Document toFind = new Document("$or", documents);
         return shopDatabase.getCollection("productsLookup")
                 .find(toFind, ProductLookupEntity.class)
                 .cursor().hasNext();

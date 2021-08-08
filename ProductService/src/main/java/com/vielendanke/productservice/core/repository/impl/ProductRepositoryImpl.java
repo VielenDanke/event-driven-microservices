@@ -63,7 +63,7 @@ public class ProductRepositoryImpl implements ProductRepository {
         List<Document> documents = new ArrayList<>();
         documents.add(new Document("id", id));
         documents.add(new Document("title", title));
-        return shopDatabase.getCollection("products").find(new Document("or", documents), Product.class)
+        return shopDatabase.getCollection("products").find(new Document("$or", documents), Product.class)
                 .first();
     }
 }

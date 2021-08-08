@@ -1,4 +1,4 @@
-package com.vielendanke.orderservice.core.model;
+package com.vielendanke.core.model;
 
 import lombok.*;
 import org.bson.Document;

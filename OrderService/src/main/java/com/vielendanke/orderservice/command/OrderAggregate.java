@@ -1,7 +1,8 @@
 package com.vielendanke.orderservice.command;
 
+import com.vielendanke.core.events.OrderApprovedEvent;
 import com.vielendanke.orderservice.core.events.OrderCreatedEvent;
-import com.vielendanke.orderservice.core.model.OrderStatus;
+import com.vielendanke.core.model.OrderStatus;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.modelling.command.AggregateIdentifier;
@@ -29,6 +30,20 @@ public class OrderAggregate {
         BeanUtils.copyProperties(command, event);
 
         AggregateLifecycle.apply(event);
+    }
+
+    @CommandHandler
+    public void handle(ApproveOrderCommand command) {
+        // create and publish order approved event
+        OrderApprovedEvent event = new OrderApprovedEvent(command.getOrderId());
+
+        AggregateLifecycle.apply(event);
+    }
+
+    @EventSourcingHandler
+    public void on(OrderApprovedEvent event) {
+        // change order status in axon aggregate order
+        this.orderStatus = event.getOrderStatus();
     }
 
     @EventSourcingHandler

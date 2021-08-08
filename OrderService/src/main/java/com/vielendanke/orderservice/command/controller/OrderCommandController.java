@@ -3,7 +3,7 @@ package com.vielendanke.orderservice.command.controller;
 import com.vielendanke.orderservice.command.CreateOrderCommand;
 import com.vielendanke.orderservice.core.model.OrderSaveRequest;
 import com.vielendanke.orderservice.core.model.OrderSaveResponse;
-import com.vielendanke.orderservice.core.model.OrderStatus;
+import com.vielendanke.core.model.OrderStatus;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
